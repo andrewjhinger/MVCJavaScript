@@ -1,0 +1,41 @@
+﻿@model MVCJavaScript.Models.Students<MVCJavaScript.Models.Student>
+
+<table>
+    <thead>
+        <tr>
+            <th>Last</th>
+            <th>First</th>
+            <th>Middle</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var person in Model.Data)
+        {
+        <tr>
+            <td>@person.LastName</td>
+            <td>@person.FirstName</td>
+            <td>@person.MiddleName</td>
+            <td>@person.Age</td>
+        </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                @for (int pgNum = 1; pgNum <= Model.NumberOfPages; pgNum++)
+                    {
+                        if (pgNum == Model.CurrentPage)
+                        {
+                            @pgNum
+                        }
+                        else
+                        {
+                            <a onclick="linkClick(@pgNum)" href="javascript:void(0)")>@pgNum</a>
+                        }
+                    }
+            </td>
+        </tr>
+    </tfoot>
+    
+</table>

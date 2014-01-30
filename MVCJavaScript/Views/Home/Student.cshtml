@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Student List";
+}
+
+<script type="text/javascript">
+    function linkClick(pageNumber) {
+        $.ajax({
+            url: '@Url.Action("PartialStudent")',
+            data: { "pageNumber": pageNumber },
+            success: function (data) {
+                $("#divPartialView").html(data);
+            }
+        });
+    }
+</script>
+
+<h2>@ViewBag.Title</h2>
+
+<div id="divPartialView">
+    @Html.Partial("PartialStudent")
+</div> 

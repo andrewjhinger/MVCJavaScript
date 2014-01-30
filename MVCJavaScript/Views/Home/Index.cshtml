@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "Index";
+    string[] daysOfWeek = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+}
+
+<h2>Index</h2>
+
+<p>
+Razor current date/time: @DateTime.Now<br />
+JavaScript current date/time: <script type="text/javascript">window.onload = document.write(new Date());</script><br />
+jQuery current date/time: <script type="text/javascript">                              window.onload = document.write($.now());</script><br />
+</p>
+
+<p>
+<script type="text/javascript">
+    var daysOfWeek = [];
+    @foreach (var weekDay in daysOfWeek)
+    {
+        <text>
+        daysOfWeek.push('@weekDay');
+        </text>
+    }
+    document.write("Days of the week pushed into JavaScript array from Razor<br />\n");
+    for (var i = 0; i < daysOfWeek.length; i++)
+        document.write(daysOfWeek[i] + "<br/>\n");
+</script>
+</p>
+
+
+<p>
+<script type="text/javascript">
+    // Handle getJSON button click
+    $().ready(function () {
+        $("#getJSON").bind("click", function () {
+            $("#divJSONResults").empty();
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                url: '/Home/GetContent',
+                data: { "format": "JSON" },
+                success: function (data) {
+                    if (data == null)
+                        $("#divJSONResults").append("No data returned.");
+                    else {
+                        for (var i = 0; i < data.length; i++) {
+                            $("#divJSONResults").append("Name/Age: " + data[i].Name + ", " + data[i].Age + "<br />\n");
+                        }
+                    }
+                }
+            });
+        });
+    });
+    // Handle getXML button click
+    $().ready(function () {
+        $("#getXML").bind("click", function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                url: '/Home/GetContent',
+                data: { "format": "XML" },
+                success: function (data) {
+                    if (data == null)
+                        document.getElementById('textAreaXMLResults').value = "No data returned";
+                    else {
+                        document.getElementById('textAreaXMLResults').value = data;
+                    }
+                }
+            });
+        });
+    });
+</script>
+</p>
+<input type="submit" id="getXML" name="getXML" value="GET XML" /><br />
+XML Results<br />
+<textarea rows="15" cols="70" id="textAreaXMLResults" name="textAreaXMLResults"></textarea><br />
+<input type="submit" id="getJSON" name="getJSON" value="Get JSON" /><br />
+JSON Results:<br />
+<div id="divJSONResults" /><br />
